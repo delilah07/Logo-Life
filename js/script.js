@@ -303,7 +303,31 @@ $(document).ready(function(){
         asNavFor: '.galary-product__mainslider',
         dots: false,
         arrows: false,
-        focusOnSelect: true
+        focusOnSelect: true,
+        responsive: [
+            {
+                breakpoint: 400,
+                settings: {
+                    slidesToShow: 3
+                }
+            }
+        ]
+    });
+    $('.same-products__items').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        dots: false,
+        arrow: true,
+        prevArrow: '<div class="prev-arrow"></div>',
+        nextArrow: '<div class="next-arrow"></div>',
+        responsive: [
+            {
+                breakpoint: 540,
+                settings: {
+                    slidesToShow:2
+                }
+            }
+        ]
     });
 });;
 (function(factory) {
@@ -3123,8 +3147,75 @@ if (window.matchMedia("(max-width: 992px)").matches) {
  }
  
  
- 
- 
+ // Quantity button
+
+let quantityButtons = document.querySelectorAll('.quantity__button');
+if(quantityButtons.length > 0) {
+    for (let i = 0; i < quantityButtons.length; i++){
+        const quantityButton = quantityButtons[i];
+        quantityButton.addEventListener('click', function(e) {
+            let valueInput = parseInt(quantityButton.closest('.quantity').querySelector('input').value);
+            if (quantityButton.classList.contains('quantity__button-plus')) {
+                valueInput++;
+            } else {
+                valueInput--;
+                if (valueInput < 1){
+                    valueInput = 1;
+                }
+            }
+            quantityButton.closest('.quantity').querySelector('input').value = valueInput;
+        });
+    }
+}
+
+// Tabs
+let tab = function(){
+    let tabNav = document.querySelectorAll('.info-product__item');
+    let tabContent = document.querySelectorAll('.info-product__block');
+
+    tabNav.forEach(item =>{
+        item.addEventListener('click', selectTabNav)
+    });
+
+    function selectTabNav() {
+        tabNav.forEach(item =>{
+            item.classList.remove('active');
+        });
+        this.classList.add('active');
+        tabName = this.getAttribute('data-tab');
+        selectTabContent(tabName)
+    }
+    function selectTabContent(tabName) {
+        tabContent.forEach(item => {
+            item.classList.contains(tabName) ? item.classList.add('active') : item.classList.remove('active')
+        })
+    }
+} ;
+tab();
+
+let tabCheckout = function(){
+    let tabNavCheckout = document.querySelectorAll('.content-checkout__item');
+    let tabContentCheckout = document.querySelectorAll('.content-checkout__block');
+
+    tabNavCheckout.forEach(item =>{
+        item.addEventListener('click', selectTabNavCheckout)
+    });
+
+    function selectTabNavCheckout() {
+        tabNavCheckout.forEach(item =>{
+            item.classList.remove('active');
+        });
+        this.classList.add('active');
+        tabNameCheckout = this.getAttribute('data-tab');
+        selectTabContentCheckout(tabNameCheckout)
+    }
+    function selectTabContentCheckout(tabNameCheckout) {
+        tabContentCheckout.forEach(item => {
+            item.classList.contains(tabNameCheckout) ? item.classList.add('active') : item.classList.remove('active')
+        })
+    }
+} ;
+tabCheckout();
 
 // how many checkboxes are cheched
 let checkboxCategories = document.querySelectorAll('.categories-search .checkbox');
@@ -3253,4 +3344,7 @@ filterTitles.forEach(function(filterTitle) {
     });
 
 });
+
+
+
 
